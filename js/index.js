@@ -5,6 +5,11 @@ const getEvents = async(eventos) => {
         result.json()
         )
 
+        events.forEach((event) => {
+            const ids = event._id
+            console.log(ids)
+        })
+
     events
     .sort((eventoA, eventoB) => eventoA.scheduled - eventoB.scheduled)
     .slice(0, 3)
@@ -15,10 +20,24 @@ const getEvents = async(eventos) => {
             <h2>${event.name} - ${new Date (event.scheduled).toLocaleDateString('pt-BR')}</h2>
             <h4>${event.attractions.join(", ")}</h4>
             <p>${event.description}</p>
-            <button  id='reserva' class="btn btn-primary">reservar ingresso</a>
+            <button  id="reserva" class="btn btn-primary">reservar ingresso</a>
         </article>`
         divEventos.appendChild(article)
     });
+
+    // events.forEach((event) => {
+    //     const ids = event._id
+    //     console.log(ids)
+    // })
+
+
+
+    // const idd = document.getElementsByClassName('idd');
+    // // for (let idx, i = 0; i < idd.length; i++) {
+    // //     idx = idd[i];
+    // //     idx.push(idd);
+    // //     }
+
 
 
 const closeModal = document.querySelector("#close-modal")
@@ -44,11 +63,11 @@ const toggleModal = () => {
     // reservas.forEach((a) => {
     //     a.addEventListener("click", () => toggleModal())})
 
-    const reservas = document.querySelectorAll('#reserva');
+    const reservas = document.getElementsByClassName('btn btn-primary');
     for (let reserva, i = 0; i < reservas.length; i++) {
-    reserva = reservas[i];
-    reserva.addEventListener('click', toggleModal);
-    }
+        reserva = reservas[i];
+        reserva.addEventListener('click', toggleModal);
+        }
 
 
 
@@ -62,6 +81,7 @@ fade.addEventListener("click", () => toggleModal())
 
 const emailUsuario = document.querySelector("#email")
 const nomeUsuario = document.querySelector("#nome")
+const formModal = document.querySelector("#formModal")
 
 formModal.addEventListener("submit", (event) => {
     event.preventDefault(); 
@@ -71,7 +91,7 @@ formModal.addEventListener("submit", (event) => {
         owner_name: nomeUsuario.value,
         owner_email: emailUsuario.value,
         number_tickets: "1",
-        event_id: `${event.event_id}`
+        event_id: "63c2fee5364d291a5f4609c5"
     }
     console.log(bodym)
     const response = fetch(`${BASE_URL}/bookings`, { // requisição de envio para o banco de dados
@@ -93,10 +113,10 @@ formModal.addEventListener("submit", (event) => {
 
 })
 
-
+const idReserva = document.querySelector("#idReserva")
+idReserva.textContent = 'fsafasas'
 
 }
-
 
 
 divEventos.appendChild(modal)
