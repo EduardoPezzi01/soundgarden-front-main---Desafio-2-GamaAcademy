@@ -15,7 +15,7 @@ const getEvents = async(eventos) => {
             <h2>${event.name} - ${new Date (event.scheduled).toLocaleDateString('pt-BR')}</h2>
             <h4>${event.attractions.join(", ")}</h4>
             <p>${event.description}</p>
-            <button  id="reserva" class="btn btn-primary">reservar ingresso</a>
+            <button  id='reserva' class="btn btn-primary">reservar ingresso</a>
         </article>`
         divEventos.appendChild(article)
     });
@@ -44,7 +44,7 @@ const toggleModal = () => {
     // reservas.forEach((a) => {
     //     a.addEventListener("click", () => toggleModal())})
 
-    const reservas = document.querySelectorAll('button');
+    const reservas = document.querySelectorAll('#reserva');
     for (let reserva, i = 0; i < reservas.length; i++) {
     reserva = reservas[i];
     reserva.addEventListener('click', toggleModal);
@@ -52,15 +52,52 @@ const toggleModal = () => {
 
 
 
-closeModal.addEventListener("click", () => toggleModal) //pq aqui nao pede parametro
-fade.addEventListener("click", () => toggleModal()) // pq aqui pede parametro?
+closeModal.addEventListener("click", () => toggleModal()) 
+fade.addEventListener("click", () => toggleModal()) 
 
 // [closeModal, fade].forEach((elemento) => {
 //     elemento.addEventListener("click", () => toggleModal())
 // })
 
 
+const emailUsuario = document.querySelector("#email")
+const nomeUsuario = document.querySelector("#nome")
+
+formModal.addEventListener("submit", (event) => {
+    event.preventDefault(); 
+        
+
+    const bodym = { // criando objeto que será enviado no POST pra API
+        owner_name: nomeUsuario.value,
+        owner_email: emailUsuario.value,
+        number_tickets: "1",
+        event_id: `${event.event_id}`
+    }
+    console.log(bodym)
+    const response = fetch(`${BASE_URL}/bookings`, { // requisição de envio para o banco de dados
+        method: "POST", 
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(bodym)
+    }).then((response) => {
+        if (response.ok){
+            alert("Reserva efetuada com sucesso!")
+            window.location.replace("index.html") // volta a página
+        }else {
+            alert("Falha ao efetuar reserva :(")
+        }
+    })
+
+
+
+})
+
+
+
 }
+
+
 
 divEventos.appendChild(modal)
 
